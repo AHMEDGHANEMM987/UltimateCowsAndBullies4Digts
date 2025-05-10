@@ -1,0 +1,293 @@
+Ahmed Ghanem, [10/05/2025 3:12 AM]
+import random
+
+def check_guess(X, Y):
+    taureaux = 0
+    vaches = 0
+    # تحويل X و Y إلى قوائم للتحقق من الأرقام
+    X = list(str(X))
+    Y = list(str(Y))
+    
+    # قائمة لتتبع الأرقام التي تم التحقق منها
+    X_checked = [False] * len(X)
+    Y_checked = [False] * len(Y)
+    
+    # حساب الثيران (Taureaux)
+    for i in range(len(X)):
+        if X[i] == Y[i]:
+            taureaux += 1
+            X_checked[i] = True
+            Y_checked[i] = True
+    
+    # حساب الأبقار (Vaches)
+    for i in range(len(X)):
+        if not X_checked[i]:  # إذا لم يتم التحقق من هذا الرقم كـ Taureaux
+            for j in range(len(Y)):
+                if not Y_checked[j] and X[i] == Y[j]:
+                    vaches += 1
+                    Y_checked[j] = True  # التأكد من أن الرقم في Y تم التحقق منه
+    
+    return taureaux, vaches
+
+# توليد الرقم السري عشوائيًا
+def generate_secret_number():
+    return random.randint(1000, 9999)  # توليد رقم مكون من 4 أرقام عشوائية
+
+# البرنامج الرئيسي
+secret_number = generate_secret_number()  # توليد الرقم السري
+attempts = 0
+
+# الرسالة الأولى عند بداية اللعبة
+print("أدخل التخمين (رقم مكون من 4 أرقام):")
+
+while True:
+    Y = int(input())  # التخمين من اللاعب
+    taureaux, vaches = check_guess(secret_number, Y)  # التحقق من التخمين
+    
+    # إظهار النتيجة
+    print(f"{taureaux} Taureaux, {vaches} Vaches")
+    
+    attempts += 1
+    
+    # إذا كان اللاعب قد حقق 4 Taureaux و 0 Vaches
+    if taureaux == 4 and vaches == 0:
+        print(f"مبروك! لقد أصبت الرقم السري في {attempts} محاولة.")
+        break  # إنهاء الحلقة عند الفوز
+    
+    # الرسائل بناءً على الاحتمالات المختلفة
+    if taureaux == 1 and vaches == 0:
+        print("أنت قريب! حاول تخمين الأرقام الصحيحة التي لديك.")
+    elif taureaux == 1 and vaches == 1:
+        print("ممتاز! أكمل للحصول على 4 Taureaux و 0 Vaches.")
+    elif taureaux == 1 and vaches == 2:
+        print("أنت قريب جداً! اثنان من الأرقام صحيحين، فقط تأكد من ترتيبهم.")
+    elif taureaux == 2 and vaches == 1:
+        print("أنت على الطريق الصحيح! لديك 2 Taureaux و 1 Vache.")
+    elif taureaux == 2 and vaches == 2:
+        print("أنت متقدم! لديك 2 Taureaux و 2 Vaches.")
+    elif taureaux == 3 and vaches == 2:
+        print("أنت في طريقك للفوز! لديك 3 Taureaux و 2 Vaches.")
+    else:
+        print("يجب عليك تخمين الرقم السري، استمر في المحاولة!")
+
+Ahmed Ghanem, [10/05/2025 3:17 AM]
+"on_right_path": "Sei sulla strada giusta! Hai 2 Taureaux e 1 Vache.",
+        "progressing": "Stai progredendo! Hai 2 Taureaux e 2 Vaches.",
+        "winning": "Sei quasi lì! Hai 3 Taureaux e 2 Vaches.",
+        "congrats": "Congratulazioni! Hai indovinato il numero segreto in {attempts} tentativi.",
+        "continue": "Devi indovinare il numero segreto, continua a provare!"
+    },
+    "ar": {  # الرسائل باللغة العربية
+        "intro": "أدخل تخمينك (رقم مكون من 4 أرقام):",
+        "close": "أنت قريب! حاول تخمين الأرقام الصحيحة.",
+        "great": "ممتاز! استمر للحصول على 4 Taureaux و 0 Vaches.",
+        "almost": "أنت قريب جدًا! رقمان صحيحان، فقط صحح الترتيب.",
+        "on_right_path": "أنت على الطريق الصحيح! لديك 2 Taureaux و 1 Vache.",
+        "progressing": "أنت تتقدم! لديك 2 Taureaux و 2 Vaches.",
+        "winning": "أنت على وشك الفوز! لديك 3 Taureaux و 2 Vaches.",
+        "congrats": "تهانينا! لقد خمّنت الرقم السري في {attempts} محاولات.",
+        "continue": "يجب عليك تخمين الرقم السري، استمر في المحاولة!"
+    }
+}
+
+# اختيار اللغة
+def get_language():
+    language = input("Choose your language (en, de, fr, es, it, ar): ").lower()
+    if language not in messages:
+        print("Language not supported, defaulting to English.")
+        return "en"
+    return language
+
+# البرنامج الرئيسي
+secret_number = generate_secret_number()  # توليد الرقم السري
+attempts = 0
+
+language = get_language()
+
+# الرسالة الأولى عند بداية اللعبة
+print(messages[language]["intro"])
+
+while True:
+    Y = int(input())  # التخمين من اللاعب
+    taureaux, vaches = check_guess(secret_number, Y)  # التحقق من التخمين
+    
+    # إظهار النتيجة
+    print(f"{taureaux} Taureaux, {vaches} Vaches")
+    
+    attempts += 1
+    
+    # إذا كان اللاعب قد حقق 4 Taureaux و 0 Vaches
+    if taureaux == 4 and vaches == 0:
+        print(messages[language]["congrats"].format(attempts=attempts))
+        break  # إنهاء الحلقة عند الفوز
+    
+    # الرسائل بناءً على الاحتمالات المختلفة
+    if taureaux == 1 and vaches == 0:
+        print(messages[language]["close"])
+    elif taureaux == 1 and vaches == 1:
+        print(messages[language]["great"])
+    elif taureaux == 1 and vaches == 2:
+        print(messages[language]["almost"])
+    elif taureaux == 2 and vaches == 1:
+        print(messages[language]["on_right_path"])
+    elif taureaux == 2 and vaches == 2:
+        print(messages[language]["progressing"])
+    elif taureaux == 3 and vaches == 2:
+        print(messages[language]["winning"])
+    else:
+        print(messages[language]["continue"])
+
+Ahmed Ghanem, [10/05/2025 3:22 AM]
+"almost": "Sei molto vicino! Due cifre sono corrette, basta correggere l'ordine.",
+        "on_right_path": "Sei sulla strada giusta! Hai 2 Taureaux e 1 Vache.",
+        "progressing": "Stai progredendo! Hai 2 Taureaux e 2 Vaches.",
+        "winning": "Sei quasi lì! Hai 3 Taureaux e 2 Vaches.",
+        "congrats": "Congratulazioni! Hai indovinato il numero segreto in {attempts} tentativi.",
+        "continue": "Devi indovinare il numero segreto, continua a provare!"
+    },
+    "ar": {  # الرسائل باللغة العربية
+        "intro": "أدخل تخمينك (رقم مكون من 4 أرقام):",
+        "close": "أنت قريب! حاول تخمين الأرقام الصحيحة.",
+        "great": "ممتاز! استمر للحصول على 4 Taureaux و 0 Vaches.",
+        "almost": "أنت قريب جدًا! رقمان صحيحان، فقط صحح الترتيب.",
+        "on_right_path": "أنت على الطريق الصحيح! لديك 2 Taureaux و 1 Vache.",
+        "progressing": "أنت تتقدم! لديك 2 Taureaux و 2 Vaches.",
+        "winning": "أنت على وشك الفوز! لديك 3 Taureaux و 2 Vaches.",
+        "congrats": "تهانينا! لقد خمّنت الرقم السري في {attempts} محاولات.",
+        "continue": "يجب عليك تخمين الرقم السري، استمر في المحاولة!"
+    }
+}
+
+# اختيار اللغة
+def get_language():
+    language = input("Choose your language (en, de, fr, es, it, ar): ").lower()
+    if language not in messages:
+        print("Language not supported, defaulting to English.")
+        return "en"
+    return language
+
+# البرنامج الرئيسي
+secret_number = generate_secret_number()  # توليد الرقم السري
+attempts = 0
+
+language = get_language()
+
+# الرسالة الأولى عند بداية اللعبة
+print(messages[language]["intro"])
+
+while True:
+    Y = int(input())  # التخمين من اللاعب
+    taureaux, vaches = check_guess(secret_number, Y)  # التحقق من التخمين
+    
+    # إظهار النتيجة
+    print(f"{taureaux} Taureaux, {vaches} Vaches")
+    
+    attempts += 1
+    
+    # إذا كان اللاعب قد حقق 4 Taureaux و 0 Vaches
+    if taureaux == 4 and vaches == 0:
+        print(messages[language]["congrats"].format(attempts=attempts))
+        break  # إنهاء الحلقة عند الفوز
+    
+    # الرسائل بناءً على الاحتمالات المختلفة
+    if taureaux == 1 and vaches == 0:
+        print(messages[language]["close"])
+    elif taureaux == 1 and vaches == 1:
+        print(messages[language]["great"])
+    elif taureaux == 1 and vaches == 2:
+        print(messages[language]["almost"])
+    elif taureaux == 2 and vaches == 1:
+        print(messages[language]["on_right_path"])
+    elif taureaux == 2 and vaches == 2:
+        print(messages[language]["progressing"])
+    elif taureaux == 3 and vaches == 2:
+        print(messages[language
+
+Ahmed Ghanem, [10/05/2025 3:25 AM]
+"on_right_path": "Sei sulla strada giusta! Hai 2 Taureaux e 1 Vache.",
+        "progressing": "Stai progredendo! Hai 2 Taureaux e 2 Vaches.",
+        "winning": "Sei quasi lì! Hai 3 Taureaux e 2 Vaches.",
+        "congrats": "Congratulazioni! Hai indovinato il numero segreto in {attempts} tentativi.",
+        "continue": "Devi indovinare il numero segreto, continua a provare!"
+    },
+    "ar": {  # الرسائل باللغة العربية
+        "intro": "أدخل تخمينك (رقم مكون من 4 أرقام):",
+        "close": "أنت قريب! حاول تخمين الأرقام الصحيحة.",
+        "great": "ممتاز! استمر للحصول على 4 Taureaux و 0 Vaches.",
+        "almost": "أنت قريب جدًا! رقمان صحيحان، فقط صحح الترتيب.",
+        "on_right_path": "أنت على الطريق الصحيح! لديك 2 Taureaux و 1 Vache.",
+        "progressing": "أنت تتقدم! لديك 2 Taureaux و 2 Vaches.",
+        "winning": "أنت على وشك الفوز! لديك 3 Taureaux و 2 Vaches.",
+        "congrats": "تهانينا! لقد خمّنت الرقم السري في {attempts} محاولات.",
+        "continue": "يجب عليك تخمين الرقم السري، استمر في المحاولة!"
+    }
+}
+
+# اختيار اللغة
+def get_language():
+    language = input("Choose your language (en, de, fr, es, it, ar): ").lower()
+    if language not in messages:
+        print("Language not supported, defaulting to English.")
+        return "en"
+    return language
+
+# البرنامج الرئيسي
+secret_number = generate_secret_number()  # توليد الرقم السري
+attempts = 0
+
+language = get_language()
+
+# الرسالة الأولى عند بداية اللعبة
+print(messages[language]["intro"])
+
+while True:
+    Y = int(input())  # التخمين من اللاعب
+    taureaux, vaches = check_guess(secret_number, Y)  # التحقق من التخمين
+    
+    # إظهار النتيجة
+    print(f"{taureaux} Taureaux, {vaches} Vaches")
+    
+    attempts += 1
+    
+    # إذا كان اللاعب قد حقق 4 Taureaux و 0 Vaches
+    if taureaux == 4 and vaches == 0:
+        print(messages[language]["congrats"].format(attempts=attempts))
+        break  # إنهاء الحلقة عند الفوز
+    
+    # الرسائل بناءً على الاحتمالات المختلفة
+    if taureaux == 1 and vaches == 0:
+        print(messages[language]["close"])
+    elif taureaux == 1 and vaches == 1:
+        print(messages[language]["great"])
+    elif taureaux == 1 and vaches == 2:
+        print(messages[language]["almost"])
+    elif taureaux == 2 and vaches == 1:
+        print(messages[language]["on_right_path"])
+    elif taureaux == 2 and vaches == 2:
+        print(messages[language]["progressing"])
+    elif taureaux == 3 and vaches == 2:
+        print(messages[language]["winning"])
+    else:
+        print(messages[language]["continue"])
+
+Ahmed Ghanem, [10/05/2025 3:40 AM]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Secret Number</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Guess the Secret Number!</h1>
+        <input type="number" id="guess" placeholder="Enter 4-digit number">
+        <button onclick="checkGuess()">Guess</button>
+        <p id="message"></p>
+        <p id="attempts"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
