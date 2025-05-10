@@ -44,12 +44,3 @@ Future Improvements:
 
 License:
 This project is open-source and distributed under the MIT License. Feel free to modify and contribute!
-
-⸻
-
-Installation Instructions:
- 1. Clone the repository:
-git clone https://github.com/your-username/cows-and-bullies.git
- 2. Navigate to the project folder:
-cd cows-and-bullies
- 3. Open the index.html file in any modern web browser to start playing.
